@@ -2,7 +2,7 @@
 
 Setup is about 15 minutes, once. After that everything is plain English to your AI. Each step below tells you what to do and, where relevant, exactly what to type to the AI.
 
-You need: Claude Desktop (or Cursor) and [Node.js LTS](https://nodejs.org/) installed. Nothing else.
+You need: Claude Desktop, Cursor, or Muse Code, and [Node.js LTS](https://nodejs.org/) installed. Nothing else.
 
 Before you start, read the "This is not a TDS/DPS e-file tool" section of `README.md`. Short version: this kit puts each inventory on your phone, GPS-stamps arrival at the property, and collects a photo report; it does not file with a deposit scheme, does not generate a branded PDF, and does not burn a GPS stamp onto photos. Tenant names and access codes stay on your computer; ZenSched only ever sees a type+street label (`Check-out 12 Oak Lane`), an address, and the Inventory Report.
 
@@ -61,7 +61,7 @@ Paste `SKILL.md` into the AI as standing instructions (Claude Desktop: a Project
 
 > We're Thames Inventory Co in London, British Summer Time. It's just me, Priya Shah, priya@example.com. Set me up.
 
-The AI saves your settings, invites **you** to ZenSched as a worker ($0.25, once; you are the clerk on the phone), and calls `form_create` once (free) to build the Inventory Report you fill in at each property: rooms covered, cleanliness, up to eight room photos, meters, keys, a damage flag with notes and photos, and a note for the agent. No signature pad. It stores the form id so every appointment gets it. Install the app from the invitation email ([Android](https://play.google.com/store/apps/details?id=com.zensched.app) / [iOS TestFlight](https://testflight.apple.com/join/Wp51m5Yq)).
+The AI saves your settings, invites **you** to ZenSched as a worker ($0.25, once; you are the clerk on the phone), and calls `form_create` once (free) to build the Inventory Report you fill in at each property: rooms covered, cleanliness, up to eight room photos, meters, keys, a damage flag with notes and photos, and a note for the agent. No signature pad. It stores the form id so every appointment gets it. Install the app from the invitation email ([Android](https://play.google.com/store/apps/details?id=com.zensched.app) / [iOS App Store](https://apps.apple.com/us/app/zensched/id6800081657)).
 
 Optional but recommended: "Allow check-in 20 minutes early and set the radius to 150 m." Clerks arrive early and often park far from a mansion-block entrance. The radius is a **policy** setting, not per property.
 

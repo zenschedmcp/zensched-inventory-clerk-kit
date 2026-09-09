@@ -58,7 +58,7 @@ When you paste an agent's email, the AI extracts the client, instruction number,
 
 ### 0. What you need
 
-- **An AI tool that supports MCP.** These instructions use Claude Desktop (Windows or Mac). Cursor works too.
+- **An AI tool that supports MCP.** These instructions use Claude Desktop (Windows or Mac). Cursor and Muse Code work too.
 - **Node.js 20 or newer.** The SQLite tool runs on it. Download the LTS installer from [nodejs.org](https://nodejs.org/) and run it with the defaults. This is the only software install.
 - You do **not** need the `sqlite3` command-line program, Python, or Git.
 
@@ -169,7 +169,7 @@ Subs are paid per inventory, not by the hour. Each sub has a split (`£55 flat` 
 ## Mobile app for clerks
 
 - **Android:** [Google Play](https://play.google.com/store/apps/details?id=com.zensched.app)
-- **iOS:** [TestFlight](https://testflight.apple.com/join/Wp51m5Yq)
+- **iOS:** [App Store](https://apps.apple.com/us/app/zensched/id6800081657)
 
 In solo mode you invite yourself; the email arrives at your own address, you install the app, and your appointments appear as they are booked. Each one shows the address and time; you check in on arrival (GPS-verified), walk the property, fill in the Inventory Report with photos, and check out. Subs get the same email when you add them. There is no signature step; you submit the report yourself.
 

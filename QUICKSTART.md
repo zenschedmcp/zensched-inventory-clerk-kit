@@ -4,7 +4,7 @@ Setup is about 15 minutes, once. After that everything is plain English to your 
 
 You need: Claude Desktop, Cursor, or Muse Code, and [Node.js LTS](https://nodejs.org/) installed. Nothing else.
 
-Before you start, read the "This is not a TDS/DPS e-file tool" section of `README.md`. Short version: this kit puts each inventory on your phone, GPS-stamps arrival at the property, and collects a photo report; it does not file with a deposit scheme, does not generate a branded PDF, and does not burn a GPS stamp onto photos. Tenant names and access codes stay on your computer; ZenSched only ever sees a type+street label (`Check-out 12 Oak Lane`), an address, and the Inventory Report.
+Before you start, read the "This is not a TDS/DPS e-file tool" section of `README.md`. Short version: this kit puts each inventory on your phone, GPS-verifies arrival at the property, and collects a photo report; it does not file with a deposit scheme, does not generate a branded PDF, and does not burn a GPS stamp onto the JPEG. Capture location and time are stored with each photo when the phone can read them. Tenant names and access codes stay on your computer; ZenSched only ever sees a type+street label (`Check-out 12 Oak Lane`), an address, and the Inventory Report.
 
 ## 1. Make a data folder
 
@@ -79,7 +79,7 @@ Behind the scenes the AI extracts the client, instruction number, type (check-in
 
 Your phone shows the appointment. At the door, **Check in** (GPS-verified). Walk the property. Open the **Inventory Report** on the shift: rooms covered, cleanliness, room photos (required, up to 8), meters, keys, damage if any, note for the agent. Submit. **Check out**.
 
-Photos are stored as you took them. ZenSched does **not** burn a date, time, or GPS stamp onto the image; the punch record is the location/time proof.
+Photos are stored as you took them. Capture location and time travel **with** the upload when the phone can read them (EXIF GPS, or device GPS on a live camera shot). They are **not** burned onto the JPEG. The check-in punch is separate — that is the geofence proof, not the photo's capture point. Gallery picks without EXIF GPS, screenshots, and denied location permission can come back empty.
 
 ## 8. Close out and export
 

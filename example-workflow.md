@@ -61,7 +61,7 @@ form_create:
 
 ```json
 [
-  {"type": "section", "label": "Rooms", "identifier": "rooms", "text": "Photograph each room you cover. Do not write the tenant's name, phone, or any access codes here. Photos are stored as uploaded — ZenSched does not burn a date, time, or GPS stamp onto the image."},
+  {"type": "section", "label": "Rooms", "identifier": "rooms", "text": "Photograph each room you cover. Do not write the tenant's name, phone, or any access codes here. Capture location and time are stored with each photo when the phone can read them. They are not burned onto the image."},
   {"type": "multi_select", "label": "Rooms covered", "identifier": "rooms_covered", "required": true,
    "options": ["Hall", "Kitchen", "Living", "Bedroom 1", "Bedroom 2", "Bedroom 3", "Bathroom", "Garden", "Other"]},
   {"type": "select", "label": "Cleanliness", "identifier": "cleanliness", "required": true,
@@ -321,7 +321,7 @@ shift_status: shift_id 89101
 sqlite_execute: UPDATE inventories SET exported_at = datetime('now', 'localtime') WHERE inventory_id = 1;
 ```
 
-> Dispute pack for **INVY-2026-0001** (Northcote NCL-8841) — paste this into your own report or email it to the agent. This is not a TDS filing and not a branded PDF. Photos have **no burned-in GPS stamp**; the punch record is the location/time proof.
+> Dispute pack for **INVY-2026-0001** (Northcote NCL-8841) — paste this into your own report or email it to the agent. This is not a TDS filing and not a branded PDF. Pixels are **unmarked**. Punch GPS is the geofence. Each photo's `capture_*` is where that picture was taken, when the phone had it.
 >
 > ```
 > Thames Inventory Co — Inventory dispute pack
@@ -445,7 +445,7 @@ sqlite_query: SELECT * FROM invoices_outstanding;
 | GPS punches, arrival time, distance from pin | ZenSched (originals); stamps copied once to `inventories.checked_in_at` / `checked_out_at` / `gps_verified` / `checkin_distance_m` | Proof of arrival and the dispute-pack times, answered from SQLite afterwards |
 | The Inventory Report form | ZenSched (ID in `settings`) | Installed on the phone per shift; no signature field |
 | Two Inventory Report submissions and their photos | ZenSched (originals); summary, damage flag, photo count, `report_dc_id` in `inventories` | Read once (metered $0.15); `form_export` replay free for the Oak Lane pack |
-| Photo pixels (no burned-in date/time/GPS stamp) | ZenSched CDN | Platform does not watermark; punch record is the corroboration |
+| Photo pixels (no burned-in date/time/GPS stamp) | ZenSched CDN | JPEG is unmarked; `capture_lat` / `capture_lng` / `capture_ts` sit on the image record when the phone had them |
 | Check-in policy (150 m radius, 20 min early check-in, 15 min check-out reminder) | ZenSched (policy 0) | Radius is enforced by the policy, not per location |
 | Fees per inventory, billable totals, INV-2026-0001, aging | SQLite (`inventories`, `billable_inventories`, `invoices`, `invoices_outstanding`) | Receivables from the letting agent |
 | Sub payouts | SQLite (`payouts`) | Not used this week (solo); agency mode only |

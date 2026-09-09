@@ -35,8 +35,10 @@
 -- SKILL.md forbids the agent from putting any local-only column into a
 -- ZenSched field.
 --
--- PHOTOS: ZenSched stores the upload and the GPS punch separately. It does
--- NOT burn a date, time, or GPS stamp onto the image pixels.
+-- PHOTOS: each image can carry capture_lat / capture_lng / capture_ts /
+-- capture_source as metadata (where the picture was taken). The GPS punch
+-- is separate (was the clerk inside the geofence). ZenSched does NOT burn
+-- a date, time, or GPS stamp onto the image pixels.
 
 -- Foreign keys are OFF by default in SQLite. This must be run once per
 -- connection for ON DELETE CASCADE to work. SKILL.md tells the agent to run it

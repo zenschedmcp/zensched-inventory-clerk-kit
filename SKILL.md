@@ -63,7 +63,7 @@ form_create:
 
 ```json
 [
-  {"type": "section", "label": "Rooms", "identifier": "rooms", "text": "Photograph each room you cover. Do not write the tenant's name, phone, or any access codes here. Photos are stored as uploaded — ZenSched does not burn a date, time, or GPS stamp onto the image."},
+  {"type": "section", "label": "Rooms", "identifier": "rooms", "text": "Photograph each room you cover. Do not write the tenant's name, phone, or any access codes here. Capture location and time are stored with each photo when the phone can read them. They are not burned onto the image."},
   {"type": "multi_select", "label": "Rooms covered", "identifier": "rooms_covered", "required": true,
    "options": ["Hall", "Kitchen", "Living", "Bedroom 1", "Bedroom 2", "Bedroom 3", "Bathroom", "Garden", "Other"]},
   {"type": "select", "label": "Cleanliness", "identifier": "cleanliness", "required": true,
@@ -87,7 +87,7 @@ form_create:
 
 Then `UPDATE settings SET value = '<form_id>' WHERE key = 'report_form_id';`. Attach it to every inventory's event with `form_assign(form_id, event_id=<event_id>, idempotency_key="assign-report-{event_id}")` **before** `shift_create`, so the shift installs the form on the phone.
 
-Submission `data` comes back keyed by the identifiers above. Select and multi-select values are **option keys** (lowercase, non-alphanumerics → `_`): `rooms_covered` ∈ `hall`, `kitchen`, `living`, `bedroom_1`, `bedroom_2`, `bedroom_3`, `bathroom`, `garden`, `other`; `cleanliness` ∈ `excellent`, `good`, `fair`, `poor`; `meters_read` ∈ `yes`, `no`, `not_applicable`; `keys_checked` ∈ `yes`, `no`; `damage_found` ∈ `no`, `yes`. Map `damage_found` `yes` → `inventories.damage_found = 1`. Store the raw keys. `show_if` is documented as web-only, so the phone may show meter readings and damage detail unconditionally; harmless. A submission with photos bills $0.15 instead of $0.05 (room photos are required, so plan on $0.15).
+Submission `data` comes back keyed by the identifiers above. Select and multi-select values are **option keys** (lowercase, non-alphanumerics → `_`): `rooms_covered` ∈ `hall`, `kitchen`, `living`, `bedroom_1`, `bedroom_2`, `bedroom_3`, `bathroom`, `garden`, `other`; `cleanliness` ∈ `excellent`, `good`, `fair`, `poor`; `meters_read` ∈ `yes`, `no`, `not_applicable`; `keys_checked` ∈ `yes`, `no`; `damage_found` ∈ `no`, `yes`. Map `damage_found` `yes` → `inventories.damage_found = 1`. Store the raw keys. `show_if` follow-ups work on the phone. Photo objects on the submission / `form_export` can include `capture_lat`, `capture_lng`, `capture_ts`, `capture_source` (`exif_gps`, `exif_time_only`, `device_at_capture`, `device_at_attach`, or `unavailable`), and `capture_accuracy_m` when coords came from device GPS. Compression strips EXIF from the JPEG on S3; these fields are stored next to the file. That is where the picture was taken — not the check-in geofence. Gallery picks without EXIF coords, screenshots, and denied location permission come back null / `unavailable`. A submission with photos bills $0.15 instead of $0.05 (room photos are required, so plan on $0.15).
 
 ## Workflows
 
@@ -163,7 +163,7 @@ When the owner says "export the check-out for 12 Oak Lane" / "dispute pack for O
 2. Confirm cost if this submission has never been read (rule 11): **$0.15** for a photo report, once ever; a replay of an already-billed submission is free.
 3. `form_export(form_id=<report_form_id>, event_id=<zensched_event_id>, format="json")` — same meters as `form_submissions`; this is the natural single-event export. If you already stored the summary, you still use this (or the previous `media` URLs) for the photo links.
 4. `shift_status(shift_id)` (free) if GPS stamps are not yet on the row.
-5. Write out a **plain-text dispute pack** the owner can paste into their own report or email to the agent. Include: your inventory number, the agent's `client_ref`, visit type, street address (no tenant name unless the owner is the recipient and asks), scheduled window, GPS-verified in/out and distance from the pin, cleanliness, rooms covered, meters, keys, damage notes, photo URLs (room photos, then damage photos), notes for the agent. State clearly: **photos have no burned-in GPS stamp**; the punch record is the location/time proof.
+5. Write out a **plain-text dispute pack** the owner can paste into their own report or email to the agent. Include: your inventory number, the agent's `client_ref`, visit type, street address (no tenant name unless the owner is the recipient and asks), scheduled window, GPS-verified in/out and distance from the pin, cleanliness, rooms covered, meters, keys, damage notes, photo URLs (room photos, then damage photos), and each photo's `capture_lat` / `capture_lng` / `capture_ts` / `capture_source` when present, notes for the agent. State clearly: **pixels are unmarked** (no burned-in stamp). The punch is geofence proof. Photo `capture_*` is where that picture was taken, when the phone had it. Do not tell the owner the punch is the only location on a photo.
 6. `UPDATE inventories SET exported_at = datetime('now', 'localtime') WHERE inventory_id = ?;` so it leaves `reports_to_export`.
 
 This is not a TDS/DPS filing and not a branded PDF. The owner (or the agent) files whatever their scheme or solicitor wants.
